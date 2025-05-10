@@ -4,3 +4,221 @@
 *:after {
   box-sizing: border-box;
 }
+
+p {
+  font-family: Merriweather;
+}
+
+#page-heading {
+  font-weight: bold;
+  font-size: 35px;
+  padding: 10px;
+}
+
+body {
+  background-image: url("../images/site/small_check.jpg"); /* Sets the path to the image as the background image */
+  background-size: cover; /* Assures that the image fills the screen */
+  background-position: center; /* Keeps the image centered */
+}
+
+#wrapper {
+  background-color: white;
+  margin: 15px 30px;
+  border-width: 7px;
+  border-style: solid;
+  border-color: lightblue;
+}
+
+/* Header */
+
+#top-header {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#top-header a {
+  text-decoration: none;
+  color: black;
+}
+
+#top-header a:hover {
+  color: red;
+}
+
+.siteName a {
+  font-size: 35px;
+}
+
+#tools a {
+  font-size: 15px;
+}
+
+/* Navigation */
+
+nav {
+  display: flex;
+  justify-content: space-around;
+  background-color: black;
+  margin: 0 15px; /* Sets the margin on the left and right to 0, top and bottom to 15px */
+  padding: 15px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  list-style: none;
+  font-size: 75%;
+}
+
+nav a:hover {
+  color: yellow;
+}
+
+/* Body */
+
+.hero {
+  display: flex;
+  position: relative;
+  padding-top: 20px;
+}
+
+#hero-img {
+  margin: 0 auto;
+}
+
+#side-section {
+  background-color: rgba(128, 128, 128, 0.5);
+  /* display: inline-block; */
+  margin: 0;
+  top: 0;
+  left: 0;
+  position: absolute;
+  margin-left: 20px;
+  padding: 20px;
+  /* width: 200px; */
+  /* float: left; */
+}
+
+#section-heading {
+  font-weight: bold;
+}
+
+.section-text {
+  margin: 0 auto;
+  display: block;
+  color: red;
+}
+
+#own-button {
+  width: 100px;
+  height: auto;
+  padding-top: 10px;
+}
+
+.bottom-headings {
+  font-size: 30px;
+}
+
+#products-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.product-image {
+  background-color: lightblue;
+  text-align: center;
+  padding: 15px;
+  height: 100px;
+}
+
+.product {
+  margin: 15px;
+  padding-top: 20px;
+}
+
+.product-link {
+  display: block;
+  text-align: center;
+}
+
+.review {
+  font-size: 150%;
+  padding-top: 25px;
+}
+
+.copyright {
+  padding: 20px;
+}
+
+@media screen and (min-width: 800px) {
+  body {
+    background-image: url("../images/site/checkerboard.jpg"); /* Sets the path to the image as the background image */
+    background-size: cover; /* Assures that the image fills the screen */
+    background-position: center; /* Keeps the image centered */
+  }
+
+  #wrapper {
+    margin: 20px 150px;
+  }
+
+  nav a {
+    font-size: 150%;
+  }
+
+  .siteName a {
+  font-size: 45px;
+  }
+
+  #tools a {
+    font-size: 25px;
+  }
+
+  #hero-large {
+    width: auto;
+    height: 350px;
+    margin: 0 auto;
+  }
+
+  #side-section {
+    top: 3rem;
+    left: 3rem;
+  }
+
+  .section-text {
+    font-size: 30px;
+  }
+
+  #own-button {
+    width: 200px;
+  }
+
+  #bottom-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  #section-1 {
+    grid-column: 2/3;
+    grid-row: 1;
+  }
+
+  #section-2 {
+    grid-column: 1/2;
+    grid-row: 1;
+  }
+
+  .product-link {
+    font-size: 20px;
+  }
+
+  /* #section-2-heading {
+    grid-column: 1/3;
+  } */
+
+
+}
