@@ -61,6 +61,7 @@ body {
 
 nav {
   display: flex;
+  flex-direction: row;
   justify-content: space-around;
   background-color: black;
   margin: 0 15px; /* Sets the margin on the left and right to 0, top and bottom to 15px */
