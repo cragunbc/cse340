@@ -1,9 +1,9 @@
 /******* Change Box Model ***************/
-*,
+/* *,
 *:before,
 *:after {
   box-sizing: border-box;
-}
+} */
 
 p {
   font-family: Merriweather;
@@ -15,11 +15,11 @@ p {
   padding: 10px;
 }
 
-body {
-  background-image: url("../images/site/small_check.jpg"); /* Sets the path to the image as the background image */
-  background-size: cover; /* Assures that the image fills the screen */
-  background-position: center; /* Keeps the image centered */
-}
+/* body {
+  background-image: url("../images/site/small_check.jpg");
+  background-size: cover;
+  background-position: center;
+} */
 
 #wrapper {
   background-color: white;
@@ -59,20 +59,26 @@ body {
 
 /* Navigation */
 
-nav {
+nav ul {
   display: flex;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; */
   flex-direction: row;
   justify-content: space-around;
   background-color: black;
-  margin: 0 15px; /* Sets the margin on the left and right to 0, top and bottom to 15px */
+  margin: 0 auto; /* Sets the margin on the left and right to 0, top and bottom to 15px */
   padding: 15px;
 }
+
+/* nav ul {
+  padding: 0;
+} */
 
 nav a {
   color: white;
   text-decoration: none;
-  list-style: none;
+  list-style: none; 
   font-size: 75%;
+  padding: 10px;
 }
 
 nav a:hover {
@@ -155,6 +161,13 @@ nav a:hover {
   padding: 20px;
 }
 
+/* Inventory Display */
+
+#inv-display {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
 @media screen and (min-width: 800px) {
   body {
     background-image: url("../images/site/checkerboard.jpg"); /* Sets the path to the image as the background image */
@@ -221,5 +234,11 @@ nav a:hover {
     grid-column: 1/3;
   } */
 
+
+  /* Inventory Display */
+  #inv-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 
 }
