@@ -36,6 +36,10 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory Route
 app.use("/inv", inventoryRoute)
 
+app.get("/inv/get-error", (req, res, next) => {
+    next(new Error("500 error"))
+})
+
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
@@ -47,17 +51,34 @@ app.use(async (req, res, next) => {
 * Express Error Handler
 * Place after all other middleware
 *************************/
+
+// app.use(async (err, req, res, next) => {
+//   let nav = await utilities.getNav()
+//   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+//   if(err.status == 404){message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
+//   res.render("errors/error", {
+//     title: err.status || 'Server Error',
+//     message,
+//     nav
+//   })
+// })
+
+
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
+  const status = err.status || 500
+  const error404 = status === 404
+  const error500 = status === 500
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-  if(err.status == 404){message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
-  res.render("errors/error", {
-    title: err.status || 'Server Error',
+  const message = err.message || (error404 ? "Oh no! There was a crash. Maybe try a different route?": "Sorry we appear to have lost that page")
+  // if(err.status == 500){message = err.message} else {message = 'Sorry, we appear to have lost that page.'}
+  const template = error404 ? "errors/error" : "errors/500error"
+  res.status(status).render(template, {
+    title: status,
     message,
     nav
   })
 })
-
 /* ***********************
  * Local Server Information
  * Values from .env (environment) file

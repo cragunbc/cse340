@@ -15,6 +15,10 @@ p {
   padding: 10px;
 }
 
+h1 {
+  padding-left: 20px;
+}
+
 /* body {
   background-image: url("../images/site/small_check.jpg");
   background-size: cover;
@@ -158,7 +162,12 @@ nav a:hover {
 }
 
 .copyright {
-  padding: 20px;
+  padding: 15px;
+  margin: 0;
+}
+
+.error-link {
+  padding: 15px;
 }
 
 /* Inventory Display */
@@ -166,6 +175,78 @@ nav a:hover {
 #inv-display {
   display: grid;
   grid-template-columns: 1fr;
+  list-style-type: none;
+  padding: 0;
+}
+
+#inv-display li {
+  /* display: grid;
+  grid-template-rows: auto auto; */
+  text-align: center;
+  border: solid black 7px;
+  border-radius: 15px;
+  margin: 15px 30px;
+}
+
+#inv-display li img {
+  padding-top: 10px;
+}
+
+.namePrice {
+  padding-bottom: 15px;
+}
+
+/* Vehicle Detail Page */
+
+.vehicle_image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vehicle_info {
+  margin: 0 15px;
+}
+
+.vehicle_info p {
+  padding-top: 15px;
+  font-size: 20px;
+}
+
+.vehicle_detail_heading {
+  font-size: 25px;
+}
+
+.vehicle_name {
+  padding-left: 20px;
+}
+
+.error-img {
+  display: block;
+  margin: 0 auto;
+  width: 30%;
+  height: auto;
+  text-align: center;
+}
+
+.error-msg {
+  font-family: Merriweather;
+  text-align: center;
+  font-size: 25px;
+}
+
+.server-error {
+  display: block;
+  margin: 0 auto;
+  width: 90%;
+  height: auto;
+  text-align: center;
+}
+
+.server-error-msg {
+  font-family: Merriweather;
+  text-align: center;
+  font-size: 25px;
 }
 
 @media screen and (min-width: 800px) {
@@ -240,5 +321,32 @@ nav a:hover {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
   }
+
+
+
+  /*Vehicle Detail Page*/
+
+  .vehicle_detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .vehicle_name, .vehicle_image {
+    grid-column: 1/2;
+  }
+
+  .vehicle_info {
+    grid-column: 2/3;
+  }
+
+  .vehicle_image {
+    margin: 0 30px;
+  }
+
+  .vehicle_info {
+    margin: 0 30px;
+  }
+
+
 
 }

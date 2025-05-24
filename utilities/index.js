@@ -79,10 +79,10 @@ Util.buildVehicleInfo = async function (data) {
     vehicleDetails += 
       `<div class="vehicle_info">
         <h3 class="vehicle_detail_heading">${data.inv_make} ${data.inv_model} Details</h3>
-        <p class="vehicle_price">Price: <span>${new Intl.NumberFormat('en-US').format(data.inv_price)}</span></p>
-        <p class="vehicle_description">Description: ${data.inv_description}</p>
-        <p class="vehicle_color">Color: ${data.inv_color}</p>
-        <p class=vehicle_miles>Miles: ${data.inv_miles}</p>
+        <p class="vehicle_price"><strong>Price:</strong> $<span>${new Intl.NumberFormat('en-US').format(data.inv_price)}</span></p>
+        <p class="vehicle_description"><strong>Description:</strong> ${data.inv_description}</p>
+        <p class="vehicle_color"><strong>Color:</strong> ${data.inv_color}</p>
+        <p class=vehicle_miles><strong>Miles:</strong> ${Number(data.inv_miles).toLocaleString()}</p>
       </div>`
 
     vehicleDetails += `</section>`

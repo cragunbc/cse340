@@ -1,0 +1,8 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<img class="server-error" src="/images/site/500error.png" alt="500 Error picture">
+<% } else {
+  res.redirect('/')
+} %>
+
+<p class="server-error-msg"><%- message %></p>
