@@ -249,6 +249,42 @@ nav a:hover {
   font-size: 25px;
 }
 
+/* Login Page */
+
+.form-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+fieldset {
+  border: solid black 5px;
+  border-radius: 10px;
+  background-color: lightblue;
+}
+
+fieldset label, input {
+  display: block;
+  text-align: left;
+}
+
+#signup {
+  margin: 0 auto;
+  margin-top: 7px;
+  border-radius: 10px;
+  justify-content: left;
+}
+
+#account-signup {
+  text-align: center;
+}
+
+#password-req {
+  display: block;
+  max-width: 400px;
+}
+
 @media screen and (min-width: 800px) {
   body {
     background-image: url("../images/site/checkerboard.jpg"); /* Sets the path to the image as the background image */
