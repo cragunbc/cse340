@@ -58,4 +58,90 @@ invCont.buildbyInvId = async function(req, res, next) {
 
 }
 
+invCont.buildInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  try {
+    res.render("./inventory/management", {
+      title: "Vehicle Management",
+      nav
+    })
+  } catch (error) {
+    console.error("Error pulling up page: ", error)
+    next(error)
+  }
+}
+
+
+invCont.addClassification = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  try {
+    res.render("./inventory/add-classification", {
+      title: "Add New Classification",
+      nav,
+      errors: []
+    })
+  } catch (error) {
+    console.error("Error adding a new classification: ", error)
+    next(error)
+  }
+}
+
+invCont.addInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  let dropDownSelect = await utilities.buildClassificationList()
+  try {
+    res.render("./inventory/add-inventory", {
+      title: "Add New Vehicle",
+      nav,
+      dropDownSelect,
+      errors: null
+    })
+  } catch (error) {
+    console.error("Error adding a new vehicle", error)
+    next(error)
+  }
+}
+
+invCont.addNewClassification = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const { classification_name } = req.body
+  try {
+    const data = await invModel.addVehicleByClassificationName(classification_name)
+    if (data) {
+      req.flash("notice", `${classification_name} was successfully added!`)
+      res.redirect("/inv/")
+    } else {
+      throw new Error("Error inserting a new vehicle classification")
+    }
+  } catch (error) {
+    console.error("Error adding a new vehicle classification", error)
+    res.status(500).render("inventory/management", {
+      title: "Vehicle Management",
+      nav,
+      errors: []
+    })
+  }
+}
+
+invCont.addNewInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const {classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color} = req.body
+  try {
+    const data = await invModel.addNewInventoryVehicle(classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color)
+    if (data) {
+      req.flash("notice", `New vehicle was successfully added`)
+      res.redirect("/inv/")
+    } else {
+      throw new Error("Error adding a new vehicle")
+    }
+  } catch (error) {
+    console.error("Error adding a new inventory vehicle", error)
+    res.status(500).render("inventory/management", {
+      title: "Vehicle Management",
+      nav,
+      errors: []
+    })
+  }
+}
+
 module.exports = invCont

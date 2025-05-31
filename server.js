@@ -17,6 +17,7 @@ const session = require("express-session")
 const pool = require('./database/')
 const accountRoute = require("./routes/accountRoute")
 const bodyParser = require("body-parser")
+app.use(express.urlencoded({ extended: true }))
 
 
 /* ***********************
@@ -63,6 +64,8 @@ app.use(static)
 app.get("/", utilities.handleErrors(baseController.buildHome))
 
 // Inventory Route
+// app.use("/inv/", inventoryRoute)
+
 app.use("/inv", inventoryRoute)
 
 app.use("/account", accountRoute)

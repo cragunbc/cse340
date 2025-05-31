@@ -285,6 +285,24 @@ fieldset label, input {
   max-width: 400px;
 }
 
+.vehicle-manage-link {
+  display: block;
+  padding-left: 40px;
+  font-size: 30px;
+}
+
+.classification-add-page {
+  padding: 20px;
+}
+
+#submit_classification {
+  margin-top: 10px;
+}
+
+#submit_inventory {
+  margin-top: 10px;
+}
+
 @media screen and (min-width: 800px) {
   body {
     background-image: url("../images/site/checkerboard.jpg"); /* Sets the path to the image as the background image */
