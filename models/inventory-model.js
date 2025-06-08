@@ -93,3 +93,18 @@ async function updateInventory(inv_id, classification_id, inv_make, inv_model, i
 }
 
 module.exports = {getClassifications, getInventoryByClassificationId, getVehicleInfoByInvId, addVehicleByClassificationName, addNewInventoryVehicle, updateInventory}
+
+async function deleteInventoryVehicle(inv_id) {
+  try {
+    console.log("deleting vehicle based on inv_id", inv_id)
+    const data = await pool.query(
+      "DELETE FROM public.inventory WHERE inv_id = $1 RETURNING *",[inv_id]
+    )
+    return data.rows[0]
+  } catch (error) {
+    console.error("deleting vehicle", error)
+    throw error
+  }
+}
+
+module.exports = {getClassifications, getInventoryByClassificationId, getVehicleInfoByInvId, addVehicleByClassificationName, addNewInventoryVehicle, updateInventory, deleteInventoryVehicle}

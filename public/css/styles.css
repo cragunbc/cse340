@@ -303,6 +303,18 @@ fieldset label, input {
   margin-top: 10px;
 }
 
+.account_heading {
+  margin-left: 20px;
+}
+
+#account-update1 {
+  margin: 20px;
+}
+
+#account-update2 {
+  margin: 20px;
+}
+
 @media screen and (min-width: 800px) {
   body {
     background-image: url("../images/site/checkerboard.jpg"); /* Sets the path to the image as the background image */

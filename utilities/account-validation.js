@@ -132,5 +132,33 @@ validate.checkLoginData = async (req, res, next) => {
   next()
 }
 
+validate.checkAccountType = async (req, res, next) => {
+  console.log("Middleware running")
+  console.log("Logged in user type:", req.session.clientData?.account_type)
+  if(req.session.clientData) {
+    const account = req.session.clientData.account_type
+    if(account === "Admin" || account === "Employee") {
+      return next()
+    }
+  }
+
+  let nav = await utilities.getNav()
+  req.flash("notice", "You don't have access to view that page")  
+  return res.status(403).render("account/login", {
+    title: "Login",
+    nav,
+    errors: null
+  })
+}
+
+// validate.accountType = async (req, res, next) => {
+//   if(req.session.clientData) {
+//     const account = req.session.clientData.account_type
+//     if(account === "Admin" || account === "Employee") {
+
+//     }
+//   }
+// }
+
 
 module.exports = validate

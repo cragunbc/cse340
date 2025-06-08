@@ -1,0 +1,44 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%-messages() %>
+
+<% if (errors && errors.length > 0) { %>
+  <ul class="notice">
+ <% errors.forEach(error => { %>
+   <li><%= error %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<div id="account-update2" class="form-wrap" >
+    <form action="/account/accountUpdate/<%= account_id %>" method="post">
+        <fieldset>
+            <label>First Name</label>
+            <input type="text" id="user_fname" name="account_firstname" required value="<%= account_firstname %>">
+            <label>Last Name</label>
+            <input type="text" id="user_lname" name="account_lastname" required value="<%= account_lastname %>">
+            <label>Email Address</label>
+            <input type="email" id="user_account_email" name="account_email" required value="<%= account_email %>">
+            <input type="hidden" name="account_id" value="<%= account_id %>">
+            <input id="update" type="submit" value="Update">
+        </fieldset>
+    </form>
+</div>
+
+<div id="account-update1" class="form-wrap">
+    <form action="/account/accountUpdate/password/<%= account_id %>" method="post">
+        <fieldset>
+            <h2>Update Password</h2>
+            <p>Passwords must be at least 12 characters and contain at least 1 number, 1 captial letter and 1 special character</p>
+            <p>*note your original password will be changed</p>
+            <label>Password</label>
+            <input type="password" id="user_account_password" name="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+            <input type="hidden" name="account_id" value="<%= account_id %>">
+            <input id="password_change" type="submit" value="Change Password">
+        </fieldset>
+    </form>
+</div>

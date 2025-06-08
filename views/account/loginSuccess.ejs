@@ -13,3 +13,11 @@
 <%  }) %>
  </ul>
 <% } %>
+
+<h2 class="account_heading">Welcome <%= account_firstname %></h2>
+<a class="account_heading" href="/account/accountUpdate/<%= account_id %>">Update Account Information</a>
+
+<% if (account_type === "Employee" || account_type === "Admin") { %>
+    <h3 class="account_heading">Inventory Management</h3>
+    <a class="account_heading" href="/inv">Inventory Management</a>
+<% } %>

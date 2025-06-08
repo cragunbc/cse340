@@ -21,10 +21,12 @@ app.use(express.urlencoded({ extended: true }))
 const cookieParser = require("cookie-parser")
 
 
+
+
 /* ***********************
- * Middleware
- * ************************/
- app.use(session({
+* Middleware
+* ************************/
+app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
     pool,
@@ -34,6 +36,7 @@ const cookieParser = require("cookie-parser")
   saveUninitialized: true,
   name: 'sessionId',
 }))
+
 
 // Express Messages Middleware
 app.use(require('connect-flash')())
@@ -46,6 +49,14 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 app.use(cookieParser())
 app.use(utilities.checkJWTToken)
+
+app.use((req, res, next) => {
+  res.locals.loggedin = Boolean(req.session.clientData)
+  res.locals.clientFirstname = req.session.clientData?.account_firstname
+  res.locals.clientData = req.session.clientData
+  next()
+})
+
 
 /* ***********************
  * View Engine and Templates

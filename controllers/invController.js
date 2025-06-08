@@ -257,25 +257,45 @@ invCont.updateInventory = async function (req, res, next) {
   }
 }
 
-// invCont.updateInventory = async function (req, res, next) {
-//   let nav = await utilities.getNav()
-//   const {classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color} = req.body
-//   try {
-//     const data = await invModel.updateInventory(classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color)
-//     if (data) {
-//       req.flash("notice", `Vehicle was successfully updated`)
-//       res.redirect("/inv/")
-//     } else {
-//       throw new Error("Error adding a new vehicle")
-//     }
-//   } catch (error) {
-//     console.error("Error adding a new inventory vehicle", error)
-//     res.status(500).render("inventory/management", {
-//       title: "Vehicle Management",
-//       nav,
-//       errors: []
-//     })
-//   }
-// }
+
+invCont.deleteInventory = async function (req, res, next) {
+  const inv_id = parseInt(req.params.inv_id)
+  let nav = await utilities.getNav()
+  const itemData = await invModel.getVehicleInfoByInvId(inv_id)
+  // const classificationSelect = await utilities.buildClassificationList(itemData[0].classification_id)
+  const itemName = `${itemData[0].inv_make} ${itemData[0].inv_model}`
+  res.render("./inventory/delete-confirm", {
+    title: "Delete " + itemName,
+    nav,
+    // classificationSelect: classificationSelect,
+    errors: null,
+    inv_id: itemData[0].inv_id,
+    inv_make: itemData[0].inv_make,
+    inv_model: itemData[0].inv_model,
+    inv_year: itemData[0].inv_year,
+    // inv_description: itemData[0].inv_description,
+    // inv_image: itemData[0].inv_image,
+    // inv_thumbnail: itemData[0].inv_thumbnail,
+    inv_price: itemData[0].inv_price,
+    // inv_miles: itemData[0].inv_miles,
+    // inv_color: itemData[0].inv_color,
+    // classification_id: itemData[0].classification_id
+  })
+}
+
+invCont.deleteItem = async function (req, res, next) {
+    let nav = await utilities.getNav()
+    const inv_id = parseInt(req.body.inv_id)
+
+    const deleteResult = await invModel.deleteInventoryVehicle(inv_id)
+
+    if (deleteResult) {
+      req.flash("notice", "Your vehicle was successfully deleted.")
+      res.redirect("/inv/")
+    } else {
+      req.flash("notice", "Sorry, there was an issue processing your request")
+      req.redirect("/inv/delete/inv_id")
+    }
+}
 
 module.exports = invCont

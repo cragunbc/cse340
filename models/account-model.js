@@ -40,4 +40,46 @@ async function getAccountByEmail (account_email) {
   }
 }
 
-module.exports = {registerAccount, checkExistingEmail, getAccountByEmail }
+async function getAccountById (account_id) {
+  try {
+    const result = await pool.query(
+      'SELECT account_firstname, account_lastname, account_email FROM account WHERE account_id = $1', [account_id])
+      return result.rows[0]
+  } catch (error) {
+    return new Error ("No account was found")
+  }
+}
+
+async function passwordUpdate({ account_id, account_password}) {
+  try {
+    const result = await pool.query(
+      "UPDATE account SET account_password = $1 WHERE account_id = $2 RETURNING *",
+      [account_password, account_id])
+      return result.rows[0]
+  } catch (error) {
+    return new Error("Your password couldn't be updated")
+  }
+}
+
+async function updateAccountInfo({ account_firstname, account_lastname, account_email, account_id}) {
+  try {
+    const result = await pool.query(
+    "UPDATE account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4 RETURNING *",
+    [account_firstname, account_lastname, account_email, account_id])
+    return result.rows[0]
+  } catch (error) {
+    return new Error("Your account couldn't be updated")
+  }
+}
+
+async function emailCheck(account_email, account_id){
+  try {
+    const sql = "SELECT * FROM account WHERE account_email = $1 AND account_id != $2"
+    const email = await pool.query(sql, [account_email, account_id])
+    return email.rowCount > 0
+  } catch (error) {
+    return error.message
+  }
+}
+
+module.exports = {registerAccount, checkExistingEmail, getAccountByEmail, getAccountById, updateAccountInfo, emailCheck, passwordUpdate }
