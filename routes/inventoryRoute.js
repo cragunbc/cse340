@@ -14,6 +14,16 @@ router.get("/add-classification", accountValidate.checkAccountType, invControlle
 
 router.get("/add-vehicle", accountValidate.checkAccountType, invController.addInventory)
 
+router.get("/manage", accountValidate.adminAccount, utilities.handleErrors(invController.manageUsers))
+
+router.get("/manage/data", accountValidate.adminAccount, utilities.handleErrors(invController.getUsers))
+
+// router.get("/manage/edit/:account_id", accountValidate.adminAccount, utilities.handleErrors(invController.editUser))
+
+router.get("/manage/editUser/:account_id", accountValidate.adminAccount,utilities.handleErrors(invController.editUserView))
+
+router.get("/manage/deleteUser/:account_id", accountValidate.adminAccount, utilities.handleErrors(invController.deleteUserView))
+
 router.get("/get-error", (req, res, next) => {
     next(new Error("500 error"))
 })
@@ -37,5 +47,9 @@ router.post("/add-inventory", accountValidate.checkAccountType, classValidate.in
 router.post("/update", accountValidate.checkAccountType, classValidate.newInventoryRules(), classValidate.checkUpdateData, invController.updateInventory);
 
 router.post("/delete", accountValidate.checkAccountType, utilities.handleErrors(invController.deleteItem))
+
+router.post("/manage/editUser/", accountValidate.adminAccount, accountValidate.editUserRules(), accountValidate.checkEditUserData, utilities.handleErrors(invController.updateUser))
+
+router.post("/delete-user", accountValidate.adminAccount, utilities.handleErrors(invController.deleteUser))
 
 module.exports = router;

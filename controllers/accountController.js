@@ -267,4 +267,20 @@ async function accountUpdateProcess(req, res) {
   }
 }
 
+// invCont.manageUsers = async function (req, res, next) {
+//   let nav = await utilities.getNav()
+//   // let dropDownSelect = await utilities.buildClassificationList()
+//   try {
+//     res.render("./inventory/add-inventory", {
+//       title: "Add New Vehicle",
+//       nav,
+//       dropDownSelect,
+//       errors: null
+//     })
+//   } catch (error) {
+//     console.error("Error adding a new vehicle", error)
+//     next(error)
+//   }
+// }
+
 module.exports = { buildLogin, buildRegister, registerAccount, loginAccount, accountLogin, accountManagement, logout, updateAccount, accountUpdateProcess, updatePassword }

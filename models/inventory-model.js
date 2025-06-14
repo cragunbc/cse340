@@ -108,3 +108,65 @@ async function deleteInventoryVehicle(inv_id) {
 }
 
 module.exports = {getClassifications, getInventoryByClassificationId, getVehicleInfoByInvId, addVehicleByClassificationName, addNewInventoryVehicle, updateInventory, deleteInventoryVehicle}
+
+async function getUserData() {
+  try {
+    console.log("Pulling user data from database")
+    const data = await pool.query(
+      "SELECT account_id, account_firstname, account_lastname FROM public.account"
+    )
+    return data.rows
+  } catch (error){
+    console.error("error getting users data", error)
+    throw error
+  }
+}
+
+module.exports = {getClassifications, getInventoryByClassificationId, getVehicleInfoByInvId, addVehicleByClassificationName, addNewInventoryVehicle, updateInventory, deleteInventoryVehicle, getUserData}
+
+async function getUserInfoByAccountId(account_id) {
+  try {
+    console.log("calling getUserInfoByAccountId with account_id:", account_id)
+    const data = await pool.query(
+      `SELECT * FROM public.account
+      WHERE account_id = $1`,[account_id]
+    )
+    return data.rows
+  } catch (error) {
+    console.error("getuserbyid error " + error)
+  }
+}
+
+module.exports = {getClassifications, getInventoryByClassificationId, getVehicleInfoByInvId, addVehicleByClassificationName, addNewInventoryVehicle, updateInventory, deleteInventoryVehicle, getUserData, getUserInfoByAccountId}
+
+
+async function updateUser(account_firstname, account_lastname, account_type, account_id) {
+  try {
+    console.log("updating user with account_id", account_id)
+    const data = await pool.query(
+      "UPDATE public.account SET account_firstname = $1, account_lastname = $2, account_type = $3 WHERE account_id = $4 RETURNING *",
+      [account_firstname, account_lastname, account_type, account_id]
+    )
+    return data.rows[0]
+  } catch (error) {
+    console.error("updating user profile", error)
+    throw error
+  }
+}
+
+module.exports = {getClassifications, getInventoryByClassificationId, getVehicleInfoByInvId, addVehicleByClassificationName, addNewInventoryVehicle, updateInventory, deleteInventoryVehicle, getUserData, getUserInfoByAccountId, updateUser}
+
+async function deleteUser(account_id) {
+  try {
+    console.log("deleting user based on account_id", account_id)
+    const data = await pool.query(
+      "DELETE FROM public.account WHERE account_id = $1 RETURNING *",[account_id]
+    )
+    return data.rows[0]
+  } catch (error) {
+    console.error("deleting user error", error)
+    throw error
+  }
+}
+
+module.exports = {getClassifications, getInventoryByClassificationId, getVehicleInfoByInvId, addVehicleByClassificationName, addNewInventoryVehicle, updateInventory, deleteInventoryVehicle, getUserData, getUserInfoByAccountId, updateUser, deleteUser}

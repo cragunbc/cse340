@@ -1,5 +1,7 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
+const bcrypt = require("bcryptjs")
+
 
 const invCont = {}
 
@@ -296,6 +298,165 @@ invCont.deleteItem = async function (req, res, next) {
       req.flash("notice", "Sorry, there was an issue processing your request")
       req.redirect("/inv/delete/inv_id")
     }
+}
+
+invCont.manageUsers = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  try {
+    res.render("./inventory/accountManagement", {
+      title: "Manage Users",
+      nav,
+      errors: null
+    })
+  } catch (error) {
+    console.error("Error pulling up user management page", error)
+    next(error)
+  }
+}
+
+
+invCont.getUsers = async (req, res, next) => {
+  try {
+    const invData = await invModel.getUserData()
+    return res.json(invData)
+  } catch (error) {
+    console.error("There was an error getting the user data")
+    next(error)
+  }
+}
+
+
+invCont.editUserView = async function (req, res, next) {
+  try {
+    const account_id = parseInt(req.params.account_id)
+    let nav = await utilities.getNav()
+    const itemData = await invModel.getUserInfoByAccountId(account_id)
+
+    if (!itemData.length) {
+      throw new Error("Your user wasn't found")
+    }
+
+    const itemName = `${itemData[0].account_firstname}`
+    res.render("./inventory/edit-user", {
+      title: "Edit " + itemName,
+      nav,
+      errors: null,
+      account_firstname: itemData[0].account_firstname,
+      account_lastname: itemData[0].account_lastname,
+      account_email: itemData[0].account_email,
+      account_password: itemData[0].account_password,
+      account_type: itemData[0].account_type,
+      account_id: itemData[0].account_id
+    })
+  } catch (error) {
+    console.log("There was an error pulling the user info", error)
+    next(error)
+  }
+}
+
+invCont.deleteUserView = async function (req, res, next) {
+  try {
+    const account_id = parseInt(req.params.account_id)
+    let nav = await utilities.getNav()
+    const itemData = await invModel.getUserInfoByAccountId(account_id)
+
+    if (!itemData.length) {
+      throw new Error("Your user wasn't found")
+    }
+
+    const itemName = `${itemData[0].account_firstname}`
+    res.render("./inventory/delete-user", {
+      title: "Delete " + itemName,
+      nav,
+      errors: null,
+      account_firstname: itemData[0].account_firstname,
+      account_lastname: itemData[0].account_lastname,
+      account_email: itemData[0].account_email,
+      account_type: itemData[0].account_type,
+      account_id: itemData[0].account_id
+    })
+  } catch (error) {
+    console.log("There was an error pulling the user info for deletion", error)
+    next(error)
+  }
+}
+
+
+invCont.deleteUser = async function (req, res, next) {
+    let nav = await utilities.getNav()
+    const account_id = parseInt(req.body.account_id)
+
+    const deleteResult = await invModel.deleteUser(account_id)
+
+    if (deleteResult) {
+      req.flash("notice", "Your user was successfully deleted.")
+      res.redirect("/account/")
+    } else {
+      req.flash("notice", "Sorry, there was an issue processing your request")
+      res.redirect(`/inv/deleteUser/${account_id}`)
+    }
+}
+
+
+invCont.updateUser = async function (req, res, next) {
+  try {
+    
+    let nav = await utilities.getNav()
+    const {
+      account_id,
+      account_firstname,
+      account_lastname,
+      // account_email,
+      // account_password,
+      account_type,
+    } = req.body
+  
+    let finalPassword;
+    const parsedAccountId = parseInt(account_id)
+    
+    // if (!account_password) {
+    //   const existingUser = await invModel.getUserData(parsedAccountId)
+    //   if (!existingUser.length) {
+    //     req.flash("notice", "Your user doesn't exist")
+    //     return res.redirect("/manage/")
+    //   }
+    //   finalPassword = existingUser[0].account_password
+    // } else {      
+    //   finalPassword = await bcrypt.hash(account_password, 10)
+    // }
+  
+    const updateResult = await invModel.updateUser(
+      account_firstname,
+      account_lastname,
+      // account_email,
+      // finalPassword,
+      account_type,
+      parsedAccountId,
+    )
+  
+    if (updateResult) {
+      const userName = updateResult.account_firstname + " " + updateResult.account_lastname
+      req.flash("notice", `The ${userName} was successfully updated.`)
+      return res.redirect("/account/")
+    } else {
+      const usersName = `${account_firstname} ${account_lastname}`
+      req.flash("notice", "Sorry, the insert failed.")
+      res.status(501).render("inventory/edit-user", {
+      title: "Edit " + usersName,
+      nav,
+      errors: null,
+      account_id: parsedAccountId,
+      account_firstname,
+      account_lastname,
+      // account_email,
+      // account_password,
+      account_type
+      })
+    }
+  } catch (error) {
+    console.error("There was an error with your request", error)
+    next(error)
+  }
 }
 
 module.exports = invCont
